@@ -45,19 +45,32 @@ export default function Header() {
       className={`fixed top-0 w-full z-50 transition-transform duration-300 ${isVisible ? 'translate-y-0' : '-translate-y-full'
         }`}
     >
-      {/* Header with background image */}
-      <div className="relative h-36 bg-black">
-        {/* Background Image */}
-        <Image
-          src="/images/bckg-header.png"
-          alt="Header Background"
-          fill
-          className="object-cover"
-          priority
-        />
+      {/* Header with elegant gradient background */}
+      <div className="relative h-36 bg-gradient-to-r from-black via-gray-900 to-black overflow-hidden">
+        {/* Geometric pattern overlay */}
+        <div
+          className="absolute inset-0 opacity-5"
+          style={{
+            backgroundImage: `
+              radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+              radial-gradient(circle at 80% 50%, rgba(255,255,255,0.1) 1px, transparent 1px),
+              linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.05) 50%, transparent 60%)
+            `,
+            backgroundSize: '60px 60px, 60px 60px, 120px 120px'
+          }}
+        ></div>
 
-        {/* Filtro de escurecimento leve */}
-        <div className="absolute inset-0 bg-black/25"></div>
+        {/* Subtle texture overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-black/15"></div>
+
+        {/* Animated gradient overlay for elegance */}
+        <div className="absolute inset-0 bg-gradient-to-r from-red-900/15 via-transparent to-red-900/15"></div>
+
+        {/* Top subtle glow */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+        {/* Bottom border with red accent */}
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-red-600 to-transparent shadow-red-600/50 shadow-sm"></div>
 
         {/* Header Content */}
         <div className="relative z-10 container mx-auto px-4 h-full flex items-center justify-between">
@@ -126,7 +139,7 @@ export default function Header() {
               </div>
               <div className="relative z-10">
                 <Image
-                  src="/logo-ching.png"
+                  src="/logochin.png"
                   alt="Ching Ling Restaurant"
                   width={180}
                   height={180}

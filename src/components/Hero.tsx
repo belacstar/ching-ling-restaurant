@@ -55,43 +55,43 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
+    <section className="relative h-[70vh] w-full overflow-hidden mt-36 bg-black">
       {/* Carousel Container */}
       <div className="relative h-full w-full">
         {/* Images */}
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-1500 ease-in-out ${index === currentSlide ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+            className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
           >
             <Image
               src={image.src}
               alt={image.alt}
               fill
-              className="object-cover"
+              className="object-contain"
               priority={index === 0}
             />
-            {/* Dark overlay for better text contrast */}
-            <div className="absolute inset-0 bg-black/20"></div>
+            {/* Light overlay for better text contrast */}
+            <div className="absolute inset-0 bg-black/10"></div>
           </div>
         ))}
 
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-black p-3 rounded-full transition-all duration-300 hover:scale-110 shadow-lg backdrop-blur-sm"
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
           aria-label="Slide anterior"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-8 h-8" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 bg-white/90 hover:bg-white text-black p-3 rounded-full transition-all duration-300 hover:scale-110 shadow-lg backdrop-blur-sm"
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
           aria-label="Próximo slide"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-8 h-8" />
         </button>
 
         {/* Dots Indicator */}
