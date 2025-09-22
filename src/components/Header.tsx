@@ -95,8 +95,8 @@ export default function Header() {
               <span className="text-lg font-medium tracking-wide">MENU</span>
             </button>
 
-            {/* Menu Options - Displayed below the header */}
-            <div className={`absolute top-full left-0 w-full z-50 backdrop-blur-sm transition-all duration-500 ease-in-out transform ${isMenuOpen
+            {/* Menu Options - Render fixed below the header to avoid stacking-context issues */}
+            <div className={`fixed top-36 left-0 w-full z-[9999] backdrop-blur-sm transition-all duration-500 ease-in-out transform ${isMenuOpen
               ? 'opacity-100 visible translate-y-0'
               : 'opacity-0 invisible -translate-y-4'
               }`}
@@ -127,25 +127,32 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Logo (centered and larger) */}
+          {/* Logo (centered and larger) with elegant white backing */}
           <div className="absolute left-1/2 transform -translate-x-1/2">
             <div className="relative">
-              {/* Esfumado mais nítido e ampliado para maior destaque */}
-              <div className="absolute inset-0 rounded-full scale-175"
+              {/* Soft radial glow behind the logo for depth */}
+              <div
+                className="absolute inset-0 rounded-full scale-175"
                 style={{
-                  background: 'radial-gradient(circle at center, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.25) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 70%, transparent 85%)',
+                  background:
+                    'radial-gradient(circle at center, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.25) 25%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.08) 70%, transparent 85%)',
                   filter: 'blur(6px)'
-                }}>
-              </div>
-              <div className="relative z-10">
+                }}
+              ></div>
+
+              {/* Solid white circular backing to highlight the logo (subtle, not button-like) */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 md:w-44 md:h-44 rounded-full bg-white border border-gray-100 flex items-center justify-center z-20" style={{ boxShadow: '0 6px 18px rgba(0,0,0,0.08)' }}></div>
+
+              {/* Logo image on top (no heavy drop shadow) */}
+              <div className="relative z-30 w-36 h-36 md:w-40 md:h-40 flex items-center justify-center">
                 <Image
                   src="/logochin.png"
                   alt="Ching Ling Restaurant"
-                  width={180}
-                  height={180}
+                  width={150}
+                  height={150}
                   className="object-contain"
                   style={{
-                    filter: 'drop-shadow(0px 6px 16px rgba(0,0,0,0.5))',
+                    filter: 'none',
                   }}
                   priority
                 />
@@ -159,10 +166,10 @@ export default function Header() {
 
       </div>
 
-      {/* Overlay to close menu when clicking outside */}
+      {/* Overlay to close menu when clicking outside (placed between menu and page) */}
       {isMenuOpen && (
         <div
-          className="fixed inset-0 bg-transparent z-[-1]"
+          className="fixed inset-0 bg-transparent z-[9998]"
           onClick={() => setIsMenuOpen(false)}
         ></div>
       )}

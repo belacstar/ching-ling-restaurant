@@ -55,7 +55,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative h-[70vh] w-full overflow-hidden mt-36 bg-black">
+    <section className="relative h-[70vh] w-full overflow-hidden mt-36 bg-black -z-10">
       {/* Carousel Container */}
       <div className="relative h-full w-full">
         {/* Images */}
@@ -80,7 +80,7 @@ export default function Hero() {
         {/* Navigation Arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-20 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
+          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
           aria-label="Slide anterior"
         >
           <ChevronLeft className="w-8 h-8" />
@@ -88,14 +88,14 @@ export default function Hero() {
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-20 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
+          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
           aria-label="Próximo slide"
         >
           <ChevronRight className="w-8 h-8" />
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex space-x-3">
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex space-x-3">
           {heroImages.map((_, index) => (
             <button
               key={index}
@@ -110,7 +110,7 @@ export default function Hero() {
         </div>
 
         {/* Progress Bar */}
-        <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20 z-20">
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-black/20 z-10">
           <div
             className="h-full bg-red-600 transition-all duration-700 ease-out"
             style={{
