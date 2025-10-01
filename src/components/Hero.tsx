@@ -5,21 +5,23 @@ import Image from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 export default function Hero() {
+  // Cache-buster to force browser/Next.js to fetch replaced images with same filenames
+  const CACHE_BUSTER = typeof window !== 'undefined' ? String(Date.now()) : 'ssr'
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
   // Imagens da pasta hero (assets)
   const heroImages = [
     {
-      src: '/hero01.png',
+      src: `/hero01.png?v=${CACHE_BUSTER}`,
       alt: 'Restaurante Ching Ling - Ambiente 1'
     },
     {
-      src: '/hero02.png',
+      src: `/hero02.png?v=${CACHE_BUSTER}`,
       alt: 'Restaurante Ching Ling - Ambiente 2'
     },
     {
-      src: '/hero03.png',
+      src: `/hero03.png?v=${CACHE_BUSTER}`,
       alt: 'Restaurante Ching Ling - Ambiente 3'
     }
   ]
@@ -43,64 +45,73 @@ export default function Hero() {
   }
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % heroImages.length)
+    const next = (currentSlide + 1) % heroImages.length
+    setCurrentSlide(next)
     setIsAutoPlaying(false)
     setTimeout(() => setIsAutoPlaying(true), 10000)
   }
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + heroImages.length) % heroImages.length)
+    const prev = currentSlide === 0 ? heroImages.length - 1 : currentSlide - 1
+    setCurrentSlide(prev)
     setIsAutoPlaying(false)
     setTimeout(() => setIsAutoPlaying(true), 10000)
   }
 
   return (
-    <section className="relative h-[70vh] w-full overflow-hidden mt-36 bg-black -z-10">
+    <section className="relative h-[40vh] sm:h-[48vh] md:h-[60vh] lg:h-[90vh] w-full overflow-hidden mt-16 sm:mt-20 md:mt-24 lg:mt-32 bg-black z-0">
       {/* Carousel Container */}
       <div className="relative h-full w-full">
         {/* Images */}
         {heroImages.map((image, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-opacity duration-1500 ease-in-out ${index === currentSlide ? 'opacity-100' : 'opacity-0'
+            className={`absolute inset-0 transition-opacity duration-1500 ease-in-out flex items-center justify-center ${index === currentSlide ? 'opacity-100' : 'opacity-0'
               }`}
           >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              className="object-contain"
-              priority={index === 0}
-            />
+            {/* Use object-contain and an aspect-friendly wrapper so the full image is visible without cropping */}
+            <div className="relative w-full h-full flex items-center justify-center">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                sizes="100vw"
+                className="object-fill select-none"
+                priority={index === 0}
+                style={{ transform: 'scale(1)', transition: 'none', userSelect: 'none' }}
+              />
+            </div>
             {/* Light overlay for better text contrast */}
             <div className="absolute inset-0 bg-black/10"></div>
           </div>
         ))}
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows (larger touch targets on mobile) */}
         <button
+          type="button"
           onClick={prevSlide}
-          className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
+          className="absolute left-1 sm:left-2 md:left-8 top-1/2 md:top-2/3 -translate-y-1/2 z-30 text-white hover:text-gray-200 transition-all duration-300 hover:scale-105 drop-shadow-lg cursor-pointer p-2 sm:p-3 md:p-0"
           aria-label="Slide anterior"
         >
-          <ChevronLeft className="w-8 h-8" />
+          <ChevronLeft className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12" />
         </button>
 
         <button
+          type="button"
           onClick={nextSlide}
-          className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-10 text-white hover:text-gray-200 transition-all duration-300 hover:scale-110 drop-shadow-lg"
+          className="absolute right-1 sm:right-2 md:right-8 top-1/2 md:top-2/3 -translate-y-1/2 z-30 text-white hover:text-gray-200 transition-all duration-300 hover:scale-105 drop-shadow-lg cursor-pointer p-2 sm:p-3 md:p-0"
           aria-label="Próximo slide"
         >
-          <ChevronRight className="w-8 h-8" />
+          <ChevronRight className="w-6 h-6 sm:w-8 sm:h-8 md:w-12 md:h-12" />
         </button>
 
         {/* Dots Indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex space-x-3">
+        <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2 sm:space-x-3">
           {heroImages.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentSlide
+              className={`w-4 sm:w-3.5 md:w-3 h-4 sm:h-3.5 md:h-3 rounded-full transition-all duration-300 ${index === currentSlide
                 ? 'bg-white scale-125'
                 : 'bg-white/50 hover:bg-white/80'
                 }`}

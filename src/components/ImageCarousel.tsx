@@ -26,41 +26,45 @@ export default function ImageCarousel() {
     }, [images.length])
 
     return (
-        <section className="py-20 bg-gray-100">
-            <div className="container mx-auto px-4">
-                <div className="text-center mb-12">
-                    <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+        <section className="py-12 sm:py-16 md:py-20 bg-gray-100">
+            <div className="container mx-auto px-3 sm:px-4">
+                <div className="text-center mb-8 sm:mb-10 md:mb-12">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-3 sm:mb-4">
                         Galeria
                     </h2>
-                    <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                    <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto px-2">
                         Uma amostra dos nossos pratos e do ambiente acolhedor do Ching Ling
                     </p>
                 </div>
 
                 <div className="relative max-w-6xl mx-auto">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
                         {images.slice(currentIndex, currentIndex + 3).concat(
                             images.slice(0, Math.max(0, (currentIndex + 3) - images.length))
                         ).map((image, index) => (
-                            <div key={`${currentIndex}-${index}`} className="relative h-80 w-full rounded-lg overflow-hidden shadow-lg">
-                                <Image
-                                    src={image}
-                                    alt={`Prato ou ambiente ${index + 1}`}
-                                    fill
-                                    className="object-cover hover:scale-105 transition-transform duration-300"
-                                />
+                            <div key={`${currentIndex}-${index}`} className="relative w-full rounded-lg overflow-hidden shadow-lg">
+                                {/* Responsive heights: smaller on mobile, wider aspect on desktop */}
+                                <div className="relative w-full h-36 sm:h-44 md:h-56 lg:h-64 lg:aspect-[16/9] lg:h-auto">
+                                    <Image
+                                        src={image}
+                                        alt={`Prato ou ambiente ${index + 1}`}
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        className="object-fill transition-transform duration-300"
+                                    />
+                                </div>
                             </div>
                         ))}
                     </div>
 
                     {/* Navigation dots */}
-                    <div className="flex justify-center mt-8 space-x-2">
+                    <div className="flex justify-center mt-4 sm:mt-6 space-x-2 sm:space-x-3">
                         {images.map((_, index) => (
                             <button
                                 key={index}
                                 onClick={() => setCurrentIndex(index)}
-                                className={`w-3 h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-red-600' : 'bg-gray-300'
-                                    }`}
+                                aria-label={`Ir para imagem ${index + 1}`}
+                                className={`w-4 sm:w-3.5 md:w-3 h-4 sm:h-3.5 md:h-3 rounded-full transition-colors ${index === currentIndex ? 'bg-red-600' : 'bg-gray-300'}`}
                             />
                         ))}
                     </div>

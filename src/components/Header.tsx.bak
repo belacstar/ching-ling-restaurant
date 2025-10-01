@@ -1,44 +1,51 @@
 'use client'
 
-import Image from 'next/image'
-import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { Menu } from 'lucide-react'
+import Image from 'next/image';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { M            <div className="relative h-full w-48 md:w-56 flex items-center justify-center overflow-hidden" 
+              style={{
+                background: 'linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.97) 35%, rgba(255,255,255,0.95) 65%, rgba(255,255,255,0.92) 100%)',
+                boxShadow: 'inset 0 20px 20px -20px rgba(255,255,255,0.8), inset 0 -10px 15px -10px rgba(0,0,0,0.05)'
+              }}>
+              {/* Highlight effect */}
+              <div className="absolute top-0 left-0 w-full h-12 bg-gradient-to-b from-white via-white to-transparent opacity-60"></div>
+              {/* Logo image */}X } from 'lucide-react';
 
 export default function Header() {
-  const [isVisible, setIsVisible] = useState(true)
-  const [lastScrollY, setLastScrollY] = useState(0)
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollY = window.scrollY
+      const currentScrollY = window.scrollY;
 
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         // Scrolling down & past 100px - hide header
-        setIsVisible(false)
+        setIsVisible(false);
       } else {
         // Scrolling up - show header
-        setIsVisible(true)
+        setIsVisible(true);
       }
 
-      setLastScrollY(currentScrollY)
-    }
+      setLastScrollY(currentScrollY);
+    };
 
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [lastScrollY])
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen)
-  }
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const menuItems = [
     { href: '#cardapio-chines', label: 'Cardápio Chinês' },
     { href: '#cardapio-japones', label: 'Cardápio Japonês' },
     { href: '#endereco', label: 'Endereço' },
     { href: '#sobre', label: 'Sobre' }
-  ]
+  ];
 
   return (
     <header
@@ -46,7 +53,7 @@ export default function Header() {
         }`}
     >
       {/* Header with elegant gradient background */}
-      <div className="relative h-32 bg-gradient-to-r from-black via-gray-900 to-black overflow-hidden">
+      <div className="relative h-36 bg-gradient-to-r from-black via-gray-900 to-black overflow-hidden">
         {/* Geometric pattern overlay */}
         <div
           className="absolute inset-0 opacity-5"
@@ -83,18 +90,12 @@ export default function Header() {
               {/* Dynamic Menu Icon */}
               <div className="relative">
                 <div className="w-6 h-6 flex flex-col justify-center space-y-1">
-                  <div
-                    className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'w-6'
-                      }`}
-                  ></div>
-                  <div
-                    className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'
-                      }`}
-                  ></div>
-                  <div
-                    className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : 'w-6'
-                      }`}
-                  ></div>
+                  <div className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-1.5' : 'w-6'
+                    }`}></div>
+                  <div className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? 'opacity-0' : 'w-6'
+                    }`}></div>
+                  <div className={`h-0.5 bg-current transition-all duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-1.5' : 'w-6'
+                    }`}></div>
                 </div>
               </div>
 
@@ -102,14 +103,12 @@ export default function Header() {
             </button>
 
             {/* Menu Options - Render fixed below the header to avoid stacking-context issues */}
-            <div
-              className={`fixed top-32 left-0 w-full z-[9999] backdrop-blur-sm transition-all duration-500 ease-in-out transform ${isMenuOpen
-                ? 'opacity-100 visible translate-y-0'
-                : 'opacity-0 invisible -translate-y-4'
-                }`}
+            <div className={`fixed top-36 left-0 w-full z-[9999] backdrop-blur-sm transition-all duration-500 ease-in-out transform ${isMenuOpen
+              ? 'opacity-100 visible translate-y-0'
+              : 'opacity-0 invisible -translate-y-4'
+              }`}
               style={{
-                background:
-                  'linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.90) 25%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.65) 65%, rgba(0,0,0,0.35) 80%, rgba(0,0,0,0.15) 90%, rgba(0,0,0,0.05) 100%)'
+                background: 'linear-gradient(90deg, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.90) 25%, rgba(0,0,0,0.85) 45%, rgba(0,0,0,0.65) 65%, rgba(0,0,0,0.35) 80%, rgba(0,0,0,0.15) 90%, rgba(0,0,0,0.05) 100%)'
               }}
             >
               <div className="px-4 pt-8 pb-12 pr-8">
@@ -135,23 +134,33 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full flex items-stretch justify-center">
-            <div className="h-full flex items-stretch justify-center">
-              <Image
-                src="/new-logo01.png"
-                alt="Ching Ling Restaurant"
-                width={200}
-                height={200}
-                className="object-cover h-full w-auto"
-                priority
-              />
+          {/* Logo with rectangular white background and light effect */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 h-full">
+            <div className="relative h-full w-48 md:w-56 flex items-center justify-center overflow-hidden"
+              style={{
+                background: 'linear-gradient(to bottom, rgba(255,255,255,1) 0%, rgba(255,255,255,0.98) 25%, rgba(255,255,255,0.95) 50%, rgba(255,255,255,0.92) 100%)',
+                boxShadow: 'inset 0 30px 30px -20px rgba(255,255,255,0.9), inset 0 -10px 20px -10px rgba(0,0,0,0.05)'
+              }}>
+              {/* Top light effect */}
+              <div className="absolute top-0 left-0 w-full h-16 bg-gradient-to-b from-white via-white to-transparent opacity-70"></div>
+              {/* Logo image */}
+              <div className="relative z-10 w-36 h-36 md:w-40 md:h-40 flex items-center justify-center">
+                <Image
+                  src="/logochin.png"
+                  alt="Ching Ling Restaurant"
+                  width={150}
+                  height={150}
+                  className="object-contain"
+                  priority
+                />
+              </div>
             </div>
           </div>
 
           {/* Right side - could add more content here if needed */}
           <div></div>
         </div>
+
       </div>
 
       {/* Overlay to close menu when clicking outside (placed between menu and page) */}
@@ -162,5 +171,5 @@ export default function Header() {
         ></div>
       )}
     </header>
-  )
+  );
 }

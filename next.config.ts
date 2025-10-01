@@ -16,6 +16,12 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       }
     ],
+    // Allow local images (including query strings) to be used with next/image
+    localPatterns: [
+      {
+        pathname: '/**'
+      }
+    ]
   },
 };
 
