@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { Phone, MapPin, Instagram, Facebook, Clock } from 'lucide-react';
+import { Phone, MapPin, Instagram, Facebook } from 'lucide-react';
+import newLogo from '@/assets/logo/new-logo.png';
 
 export default function Footer() {
   return (
@@ -11,11 +12,12 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <div className="mb-6">
               <Image
-                src="/logo-ching.png"
+                src={newLogo}
                 alt="Ching Ling"
                 width={120}
                 height={60}
                 className="object-contain"
+                priority
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md">

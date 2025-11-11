@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import { Menu } from 'lucide-react'
+import newLogo from '@/assets/logo/new-logo.png'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true)
@@ -114,7 +114,7 @@ export default function Header() {
             >
               <div className="px-4 pt-8 pb-12 pr-8">
                 <nav className="flex flex-wrap justify-start items-start gap-8 pr-4">
-                  {menuItems.map((item, index) => (
+                  {menuItems.map((item) => (
                     <Link
                       key={item.href}
                       href={item.href}
@@ -135,17 +135,33 @@ export default function Header() {
             </div>
           </div>
 
-          {/* Logo */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 h-full flex items-stretch justify-center">
-            <div className="h-full flex items-stretch justify-center">
-              <Image
-                src="/new-logo01.png"
-                alt="Ching Ling Restaurant"
-                width={200}
-                height={200}
-                className="object-cover h-full w-auto"
-                priority
-              />
+          {/* Logo + brand block */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full pointer-events-none">
+            <div className="relative flex items-center gap-4 px-6 py-3 border border-red-500/60 rounded-3xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] bg-black/60">
+              <div className="absolute -inset-1 rounded-[28px] bg-red-600/20 blur-2xl opacity-60" aria-hidden />
+              <div className="relative flex items-center gap-4">
+                <div className="relative h-20 w-20 sm:h-24 sm:w-24">
+                  <Image
+                    src={newLogo}
+                    alt="Ching Ling Restaurant"
+                    fill
+                    sizes="96px"
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <div className="hidden md:flex flex-col text-white drop-shadow">
+                  <span className="text-xs uppercase tracking-[0.4em] text-red-400">
+                    Restaurante
+                  </span>
+                  <span className="text-2xl font-semibold leading-tight drop-shadow">
+                    Ching Ling
+                  </span>
+                  <span className="text-sm text-white/70">
+                    Cozinha chinesa e japonesa
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 

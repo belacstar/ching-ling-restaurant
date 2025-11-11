@@ -1,30 +1,32 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import Image from 'next/image'
+import { useState, useEffect, useMemo } from 'react'
+import Image, { type StaticImageData } from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
+import hero01 from '@/assets/hero/hero01.png'
+import hero02 from '@/assets/hero/hero02.png'
+import hero03 from '@/assets/hero/hero03.png'
+
 export default function Hero() {
-  // Cache-buster to force browser/Next.js to fetch replaced images with same filenames
-  const CACHE_BUSTER = typeof window !== 'undefined' ? String(Date.now()) : 'ssr'
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAutoPlaying, setIsAutoPlaying] = useState(true)
 
   // Imagens da pasta hero (assets)
-  const heroImages = [
+  const heroImages: { src: StaticImageData, alt: string }[] = useMemo(() => ([
     {
-      src: `/hero01.png?v=${CACHE_BUSTER}`,
+      src: hero01,
       alt: 'Restaurante Ching Ling - Ambiente 1'
     },
     {
-      src: `/hero02.png?v=${CACHE_BUSTER}`,
+      src: hero02,
       alt: 'Restaurante Ching Ling - Ambiente 2'
     },
     {
-      src: `/hero03.png?v=${CACHE_BUSTER}`,
+      src: hero03,
       alt: 'Restaurante Ching Ling - Ambiente 3'
     }
-  ]
+  ]), [])
 
   // Auto-play do carrossel (8 segundos por slide para transição mais devagar)
   useEffect(() => {
@@ -75,10 +77,12 @@ export default function Hero() {
                 src={image.src}
                 alt={image.alt}
                 fill
-                sizes="100vw"
-                className="object-fill select-none"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 100vw"
+                quality={95}
+                placeholder="blur"
+                className="object-contain select-none"
                 priority={index === 0}
-                style={{ transform: 'scale(1)', transition: 'none', userSelect: 'none' }}
+                style={{ userSelect: 'none' }}
               />
             </div>
             {/* Light overlay for better text contrast */}
