@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
+import newLogo from '@/assets/logo/new-logo.png'
 
 export default function ExperienciaSection() {
     return (
@@ -18,11 +19,12 @@ export default function ExperienciaSection() {
                     {/* Logo */}
                     <div className="mb-8">
                         <Image
-                            src="/logo-ching.png"
+                            src={newLogo}
                             alt="Ching Ling Logo"
                             width={120}
                             height={120}
                             className="mx-auto opacity-90"
+                            priority
                         />
                     </div>
 

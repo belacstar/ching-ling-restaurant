@@ -1,4 +1,4 @@
-import { ChefHat, Wine, Star, Users, Clock, Award } from 'lucide-react';
+import { ChefHat, Wine, Star, Users, Clock, MapPin } from 'lucide-react';
 
 export default function Destaques() {
   const destaques = [
@@ -28,9 +28,9 @@ export default function Destaques() {
       description: "Pratos autênticos e de alta qualidade! Combinações únicas com entrada, prato principal e sobremesa"
     },
     {
-      icon: Award,
-      title: "O Mais Premiado",
-      description: "Com seus diversos diferenciais, o restaurante Ching Ling vem acumulando diversos prêmios de gastronomia asiática na região"
+      icon: MapPin,
+      title: "Local Privilegiado",
+      description: "Estamos em um ponto estratégico de Barbacena, com fácil acesso e vista privilegiada para quem quer aproveitar a cidade"
     }
   ];
 
@@ -46,7 +46,7 @@ export default function Destaques() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
           {destaques.map((destaque, index) => {
             const IconComponent = destaque.icon;
             return (
