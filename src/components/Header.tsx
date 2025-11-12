@@ -1,9 +1,8 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
-import newLogo from '@/assets/logo/new-logo.png'
+import Logo from '@/components/Logo'
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true)
@@ -36,8 +35,9 @@ export default function Header() {
   const menuItems = [
     { href: '#cardapio-chines', label: 'Cardápio Chinês' },
     { href: '#cardapio-japones', label: 'Cardápio Japonês' },
-    { href: '#endereco', label: 'Endereço' },
-    { href: '#sobre', label: 'Sobre' }
+    { href: '#cardapio-bebidas', label: 'Cardápio Bebidas' },
+    { href: '#experiencia', label: 'Endereço' },
+    { href: '#galeria', label: 'Galeria' }
   ]
 
   return (
@@ -136,13 +136,16 @@ export default function Header() {
           </div>
 
           {/* Logo + brand block */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full pointer-events-none">
-            <div className="relative flex items-center gap-4 px-6 py-3 border border-red-500/60 rounded-3xl shadow-[0_10px_35px_rgba(0,0,0,0.5)] bg-black/60">
-              <div className="absolute -inset-1 rounded-[28px] bg-red-600/20 blur-2xl opacity-60" aria-hidden />
+          <div className="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full">
+            <Link
+              href="/"
+              scroll
+              aria-label="Voltar ao início"
+              className="relative flex items-center gap-4 px-6 py-3 rounded-3xl transition hover:bg-white/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
+            >
               <div className="relative flex items-center gap-4">
                 <div className="relative h-20 w-20 sm:h-24 sm:w-24">
-                  <Image
-                    src={newLogo}
+                  <Logo
                     alt="Ching Ling Restaurant"
                     fill
                     sizes="96px"
@@ -150,7 +153,15 @@ export default function Header() {
                     priority
                   />
                 </div>
-                <div className="hidden md:flex flex-col text-white drop-shadow">
+                <div className="hidden md:flex flex-col text-white drop-shadow relative px-6 py-2">
+                  <div
+                    className="pointer-events-none absolute left-0 right-0 top-0 h-0.5 bg-gradient-to-r from-transparent via-red-500 to-transparent"
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="pointer-events-none absolute left-0 right-0 bottom-0 h-0.5 bg-gradient-to-r from-transparent via-red-500 to-transparent"
+                    aria-hidden="true"
+                  />
                   <span className="text-xs uppercase tracking-[0.4em] text-red-400">
                     Restaurante
                   </span>
@@ -162,7 +173,7 @@ export default function Header() {
                   </span>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Right side - could add more content here if needed */}

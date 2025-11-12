@@ -97,6 +97,63 @@ html {
   }
 }
 
+.custom-arrows {
+  display: flex;
+  justify-content: space-between;
+}
+
+.custom-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  z-index: 5;
+}
+
+.custom-prev {
+  left: 0.5rem;
+}
+
+.custom-next {
+  right: 0.5rem;
+}
+
+.custom-arrow:hover {
+  border-color: rgba(248, 113, 113, 0.6);
+  background: rgba(248, 113, 113, 0.25);
+}
+
+.carousel-slide {
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.35;
+  transform: scale(0.85);
+  filter: blur(1px);
+}
+
+.splide__slide.carousel-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
+  filter: none;
+  z-index: 2;
+}
+
+.splide__slide.carousel-slide.is-prev,
+.splide__slide.carousel-slide.is-next {
+  opacity: 0.6;
+  transform: scale(0.92);
+  filter: blur(0.3px);
+}
+
 @keyframes pageTurnLightSweepNext {
   0% {
     transform: translateX(30%);

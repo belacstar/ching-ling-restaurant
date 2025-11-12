@@ -1,7 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Phone, MapPin, Instagram, Facebook } from 'lucide-react';
-import newLogo from '@/assets/logo/new-logo.png';
+import Logo from '@/components/Logo';
 
 export default function Footer() {
   return (
@@ -11,8 +10,7 @@ export default function Footer() {
           {/* Logo e Descrição */}
           <div className="lg:col-span-2">
             <div className="mb-6">
-              <Image
-                src={newLogo}
+              <Logo
                 alt="Ching Ling"
                 width={120}
                 height={60}
@@ -21,12 +19,12 @@ export default function Footer() {
               />
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              A melhor experiência da culinária chinesa em Belo Horizonte.
+              A melhor experiência da culinária chinesa em Barbacena.
               Ambiente sofisticado, pratos autênticos e atendimento diferenciado.
             </p>
             <div className="flex space-x-4">
               <a
-                href="https://instagram.com/chinglingbh"
+                href="https://www.instagram.com/restaurantechingling/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-red-600 hover:bg-red-700 p-3 rounded-full transition-colors"
@@ -34,7 +32,7 @@ export default function Footer() {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://facebook.com/chinglingbh"
+                href="https://www.facebook.com/chinglingbarbacena"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-red-600 hover:bg-red-700 p-3 rounded-full transition-colors"
@@ -56,8 +54,18 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#cardapio" className="text-gray-300 hover:text-red-400 transition-colors">
-                  Cardápio
+                <Link href="#cardapio-chines" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Cardápio Chinês
+                </Link>
+              </li>
+              <li>
+                <Link href="#cardapio-japones" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Cardápio Japonês
+                </Link>
+              </li>
+              <li>
+                <Link href="#cardapio-bebidas" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Cardápio Bebidas
                 </Link>
               </li>
               <li>
@@ -66,23 +74,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="#cardapio" className="text-gray-300 hover:text-red-400 transition-colors">
-                  Cardápio
-                </Link>
-              </li>
-              <li>
-                <Link href="#galeria" className="text-gray-300 hover:text-red-400 transition-colors">
-                  Galeria
-                </Link>
-              </li>
-              <li>
-                <Link href="#contato" className="text-gray-300 hover:text-red-400 transition-colors">
-                  Contato
-                </Link>
-              </li>
-              <li>
-                <Link href="#" className="text-gray-300 hover:text-red-400 transition-colors">
-                  Reservas
+                <Link href="#experiencia" className="text-gray-300 hover:text-red-400 transition-colors">
+                  Experiência
                 </Link>
               </li>
             </ul>
@@ -98,8 +91,9 @@ export default function Footer() {
                 <MapPin className="text-red-400 mt-1 flex-shrink-0" size={18} />
                 <div>
                   <p className="text-gray-300 text-sm">
-                    Rua Exemplo, 123 - Centro<br />
-                    Belo Horizonte - MG
+                    Loja A Restaurante Ching Ling<br />
+                    R. Visc. de Carandaí, 168 - Centro<br />
+                    Barbacena - MG, 36200-000
                   </p>
                 </div>
               </div>
@@ -108,8 +102,7 @@ export default function Footer() {
                 <Phone className="text-red-400 mt-1 flex-shrink-0" size={18} />
                 <div>
                   <p className="text-gray-300 text-sm">
-                    (31) 3324-0052<br />
-                    Delivery: (31) 9999-9999
+                    (32) 3362-2492
                   </p>
                 </div>
               </div>
@@ -123,9 +116,14 @@ export default function Footer() {
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
               © 2024 Ching Ling Restaurant. Todos os direitos reservados.
             </p>
-            <p className="text-gray-400 text-sm">
-              Segunda a Domingo: 18h às 00h
-            </p>
+            <a
+              href="https://www.linkedin.com/in/isabela-camara-/"
+              target="_blank"
+              rel="noreferrer"
+              className="text-gray-400 text-sm hover:text-red-400 transition-colors"
+            >
+              Desenvolvido por Isabela Camara
+            </a>
           </div>
         </div>
       </div>

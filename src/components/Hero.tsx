@@ -4,9 +4,9 @@ import { useState, useEffect, useMemo } from 'react'
 import Image, { type StaticImageData } from 'next/image'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
-import hero01 from '@/assets/hero/hero01.png'
-import hero02 from '@/assets/hero/hero02.png'
-import hero03 from '@/assets/hero/hero03.png'
+import hero01 from '@/assets/hero/hero01.webp'
+import hero02 from '@/assets/hero/hero02.webp'
+import hero03 from '@/assets/hero/hero03.webp'
 
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0)

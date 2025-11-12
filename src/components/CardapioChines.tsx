@@ -191,26 +191,27 @@ export default function CardapioChines() {
   }
 
   return (
-    <section id="cardapio-chines" className="py-20 bg-gradient-to-b from-black via-zinc-950 to-black text-white">
+    <section id="cardapio-chines" className="py-24 text-white bg-gradient-to-b from-black via-zinc-950 to-black">
       <div className="container mx-auto px-4">
-        <div className="text-center max-w-3xl mx-auto mb-8">
-          <p className="text-sm uppercase tracking-[0.3em] text-red-500">
+        <div className="mx-auto mb-12 flex max-w-4xl flex-col items-center text-center">
+          <span className="inline-flex items-center rounded-full border border-red-500/40 px-4 py-1 text-xs uppercase tracking-[0.5em] text-red-300">
             Cardápio Chinês
-          </p>
-          <p className="text-gray-400 text-base mt-2">
-            Clique para explorar o cardápio
+          </span>
+          <h2 className="mt-4 text-4xl font-semibold text-white">Sabores tradicionais com toque especial</h2>
+          <p className="mt-3 text-base text-gray-300">
+            Explore o menu completo com pratos icônicos, porções generosas e apresentações impecáveis.
           </p>
           <button
             type="button"
             onClick={() => setIsOpen((prev) => !prev)}
-            className="mt-4 inline-flex items-center justify-center rounded-full border border-red-500/60 px-6 py-2 text-sm font-semibold uppercase tracking-widest text-white hover:bg-red-600/20 transition"
+            className="mt-6 inline-flex items-center justify-center rounded-full border border-red-500 px-8 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:border-red-400 hover:bg-red-500/10"
           >
             {isOpen ? 'Fechar cardápio' : 'Abrir cardápio'}
           </button>
         </div>
 
         {isOpen && (
-          <div className="relative max-w-6xl mx-auto">
+          <div className="relative mx-auto max-w-6xl rounded-[32px] bg-gradient-to-br from-zinc-950 via-black to-zinc-950 p-6 shadow-[0_30px_120px_rgba(0,0,0,0.5)] ring-1 ring-white/5">
             <div className="pointer-events-none absolute -inset-1 bg-gradient-to-r from-red-600/40 via-transparent to-red-600/40 blur-3xl opacity-40" aria-hidden />
             <div
               className={`relative bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.05),_transparent_60%)] shadow-[0_25px_70px_rgba(0,0,0,0.4)] border border-white/10 overflow-hidden ${turnDirection === 'next' ? 'page-turn-next' : ''} ${turnDirection === 'prev' ? 'page-turn-prev' : ''}`}
@@ -276,7 +277,7 @@ export default function CardapioChines() {
                 </button>
               </div>
 
-              <div className="text-center text-sm text-gray-400">
+              <div className="text-center text-sm text-gray-300">
                 {isMobile ? `Página ${currentView} de ${totalViews}` : `Folha ${currentView} de ${totalViews}`}
               </div>
             </div>

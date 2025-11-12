@@ -27,8 +27,9 @@ export default function Contato() {
                   <div>
                     <p className="font-semibold">Endereço</p>
                     <p className="text-gray-300">
-                      Rua Exemplo, 123 - Centro<br />
-                      Belo Horizonte - MG, 30000-000
+                      Loja A Restaurante Ching Ling<br />
+                      R. Visc. de Carandaí, 168 - Centro<br />
+                      Barbacena - MG, 36200-000
                     </p>
                   </div>
                 </div>
@@ -38,8 +39,7 @@ export default function Contato() {
                   <div>
                     <p className="font-semibold">Telefones</p>
                     <p className="text-gray-300">
-                      (31) 3324-0052 | (31) 3324-0053<br />
-                      Delivery: (31) 9999-9999
+                      (32) 3362-2492
                     </p>
                   </div>
                 </div>

@@ -1,27 +1,25 @@
 'use client'
 
-import Image, { type StaticImageData } from 'next/image'
-import { useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useMemo, useState } from 'react'
+import { Splide, SplideSlide } from '@splidejs/react-splide'
+import '@splidejs/react-splide/css/skyblue'
+import { galleryAlbums } from '@/data/gallery'
 
 type GalleryImage = {
-  src: StaticImageData
+  src: string
 }
 
-type WebpackImageContext = {
-  keys: () => string[]
-  (key: string): { default: StaticImageData }
-}
-
-const importAlbum = (context: WebpackImageContext): GalleryImage[] =>
-  context.keys().map((key: string) => ({
-    src: context(key).default as StaticImageData
+const mapAlbum = (albumKey: keyof typeof galleryAlbums): GalleryImage[] =>
+  galleryAlbums[albumKey].map((filename) => ({
+    src: `/gallery/${albumKey}/${filename}`
   }))
 
-const chineImages = importAlbum(require.context('@/assets/images/chine', false, /\.(png|jpe?g)$/) as WebpackImageContext)
-const drinkImages = importAlbum(require.context('@/assets/images/drink', false, /\.(png|jpe?g)$/) as WebpackImageContext)
-const espacoImages = importAlbum(require.context('@/assets/images/espaco', false, /\.(png|jpe?g)$/) as WebpackImageContext)
-const japaImages = importAlbum(require.context('@/assets/images/japa', false, /\.(png|jpe?g)$/) as WebpackImageContext)
-const sobremesaImages = importAlbum(require.context('@/assets/images/sobremesa', false, /\.(png|jpe?g)$/) as WebpackImageContext)
+const chineImages = mapAlbum('chine')
+const drinkImages = mapAlbum('drink')
+const espacoImages = mapAlbum('espaco')
+const japaImages = mapAlbum('japa')
+const sobremesaImages = mapAlbum('sobremesa')
 
 const albums = [
   {
@@ -54,7 +52,7 @@ const albums = [
   },
   {
     id: 'espaco',
-    title: 'Ambientes',
+    title: 'Restaurante',
     description: 'O espaço acolhedor e sofisticado do Ching Ling.',
     accent: 'from-slate-500/40 to-slate-200/10',
     images: espacoImages
@@ -63,17 +61,62 @@ const albums = [
 
 export default function ImageCarousel() {
   const [activeAlbum, setActiveAlbum] = useState(albums[0].id)
-  const highlightRef = useRef<HTMLDivElement | null>(null)
+  const [visibleCountByAlbum, setVisibleCountByAlbum] = useState<Record<string, number>>(() =>
+    Object.fromEntries(albums.map((album) => [album.id, 6]))
+  )
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [modalImage, setModalImage] = useState<string | null>(null)
 
   const album = useMemo(() => albums.find((item) => item.id === activeAlbum) ?? albums[0], [activeAlbum])
-  const highlights = useMemo(() => album.images.slice(0, 8), [album])
+  const visibleCount = visibleCountByAlbum[album.id] ?? 6
+  const highlightImages = useMemo(
+    () => album.images.slice(0, Math.min(album.images.length, 6)),
+    [album]
+  )
+  const visibleImages = useMemo(() => album.images.slice(0, visibleCount), [album, visibleCount])
 
-  const scrollHighlights = (direction: 'prev' | 'next') => {
-    if (!highlightRef.current) return
-    const container = highlightRef.current
-    const offset = direction === 'next' ? container.clientWidth * 0.8 : -container.clientWidth * 0.8
-    container.scrollBy({ left: offset, behavior: 'smooth' })
-  }
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isModalOpen])
+
+  const splideOptions = useMemo(
+    () => ({
+      type: 'loop',
+      autoplay: true,
+      interval: 3500,
+      pauseOnHover: true,
+      pauseOnFocus: true,
+      perMove: 1,
+      perPage: 2.8,
+      focus: 'center',
+      gap: '2.5rem',
+      padding: '2rem',
+      arrows: true,
+      pagination: false,
+      classes: {
+        arrows: 'splide__arrows custom-arrows',
+        arrow: 'splide__arrow custom-arrow',
+        prev: 'splide__arrow--prev custom-prev',
+        next: 'splide__arrow--next custom-next'
+      },
+      breakpoints: {
+        1200: { perPage: 2.3, gap: '2rem', padding: '1.5rem' },
+        1024: { perPage: 2, gap: '1.75rem', padding: '1.25rem' },
+        768: { perPage: 1.4, gap: '1.25rem', padding: '1rem' },
+        640: { perPage: 1.15, gap: '1.15rem', padding: '1rem' },
+        520: { perPage: 1, gap: '1rem', padding: '0.75rem' }
+      }
+    }),
+    []
+  )
 
   return (
     <section id="galeria" className="py-16 bg-gradient-to-b from-black via-zinc-950 to-black text-white">
@@ -117,79 +160,129 @@ export default function ImageCarousel() {
           </div>
 
           {/* Horizontal highlight carousel */}
-          {highlights.length > 0 && (
-            <div className="relative">
-              <div
-                ref={highlightRef}
-                className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-2 scrollbar-thin scrollbar-thumb-red-600/60 scrollbar-track-transparent"
-              >
-                {highlights.map((image, index) => (
-              <div
-                key={`${album.id}-highlight-${index}`}
-                className="relative min-w-[260px] sm:min-w-[320px] h-64 snap-center overflow-hidden rounded-3xl border border-white/15 bg-black/40"
-              >
-                <Image
-                  src={image.src}
-                  alt={`${album.title} destaque ${index + 1}`}
-                  fill
-                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 25vw"
-                  className="object-cover"
-                  placeholder="blur"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
-                <div className="absolute bottom-4 left-4 right-4">
-                  <p className="text-xs uppercase tracking-[0.4em] text-red-400">Destaque</p>
-                </div>
-              </div>
-            ))}
-          </div>
-              <div className="pointer-events-none absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-black via-black/40 to-transparent hidden md:block" />
-              <div className="pointer-events-none absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/40 to-transparent hidden md:block" />
-              <div className="hidden md:flex justify-between absolute inset-y-0 left-0 right-0 px-2">
-                <button
-                  type="button"
-                  onClick={() => scrollHighlights('prev')}
-                  className="pointer-events-auto self-center rounded-full border border-white/30 bg-black/40 p-3 text-white hover:border-red-500 hover:bg-red-500/20 transition"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  onClick={() => scrollHighlights('next')}
-                  className="pointer-events-auto self-center rounded-full border border-white/30 bg-black/40 p-3 text-white hover:border-red-500 hover:bg-red-500/20 transition"
-                >
-                  ›
-                </button>
-              </div>
-            </div>
+          {highlightImages.length > 0 && (
+            <Splide options={splideOptions} aria-label={`Destaques do álbum ${album.title}`}>
+              {highlightImages.map((image, index) => (
+                <SplideSlide key={`${album.id}-splide-${index}`} className="carousel-slide">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setModalImage(image.src)
+                      setIsModalOpen(true)
+                    }}
+                    className="group relative h-72 w-full overflow-hidden rounded-[34px] border border-white/20 bg-gradient-to-br from-zinc-950/80 to-black/60 shadow-[0_25px_80px_rgba(0,0,0,0.5)] sm:h-80 lg:h-[360px]"
+                  >
+                    <Image
+                      src={image.src}
+                      alt={`${album.title} destaque ${index + 1}`}
+                      fill
+                      sizes="(max-width: 640px) 90vw, (max-width: 1024px) 50vw, 25vw"
+                      className="object-cover transition duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent opacity-70" />
+                    <div className="absolute inset-x-6 bottom-6 flex items-center justify-between text-left">
+                      <div>
+                        <p className="text-[11px] uppercase tracking-[0.5em] text-red-300">Destaque</p>
+                        <p className="text-lg font-semibold text-white">{album.title}</p>
+                      </div>
+                      <span className="rounded-full border border-white/40 bg-black/60 px-3 py-1 text-xs uppercase tracking-[0.3em] text-white transition group-hover:border-red-400 group-hover:text-red-200">
+                        Ver
+                      </span>
+                    </div>
+                  </button>
+                </SplideSlide>
+              ))}
+            </Splide>
           )}
 
           {/* Masonry grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-            {album.images.map((image, index) => (
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {visibleImages.map((image, index) => (
               <div
                 key={`${album.id}-${index}`}
-                className="break-inside-avoid group relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 shadow-[0_20px_45px_rgba(0,0,0,0.4)]"
+                role="button"
+                tabIndex={0}
+                onClick={() => {
+                  setModalImage(image.src)
+                  setIsModalOpen(true)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault()
+                    setModalImage(image.src)
+                    setIsModalOpen(true)
+                  }
+                }}
+                className="group relative cursor-zoom-in overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-black/60 to-black/30 shadow-[0_25px_60px_rgba(0,0,0,0.45)] ring-1 ring-white/5 transition duration-500 hover:-translate-y-1 hover:shadow-[0_40px_80px_rgba(0,0,0,0.55)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-500"
               >
-                <div className="relative w-full h-60">
+                <div className="relative w-full h-48 sm:h-56 lg:h-64">
                   <Image
                     src={image.src}
                     alt={`${album.title} imagem ${index + 1}`}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1536px) 33vw, 25vw"
                     className="object-cover transition duration-500 group-hover:scale-105"
-                    placeholder="blur"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition" />
-                </div>
-                <div className="p-4">
-                  <p className="text-sm uppercase tracking-[0.25em] text-red-400 mb-1">{album.title}</p>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 transition duration-300 group-hover:opacity-100">
+                    <span className="rounded-full border border-white/40 bg-black/50 px-4 py-1 text-xs uppercase tracking-[0.3em] text-white">
+                      Ampliar
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
+
+          {visibleCount < album.images.length && (
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={() =>
+                  setVisibleCountByAlbum((prev) => ({
+                    ...prev,
+                    [album.id]: Math.min((prev[album.id] ?? 6) + 6, album.images.length)
+                  }))
+                }
+                className="rounded-full border border-white/30 px-6 py-3 text-sm font-semibold uppercase tracking-[0.3em] text-white transition hover:border-red-500 hover:bg-red-500/10"
+              >
+                Exibir mais fotos
+              </button>
+            </div>
+          )}
         </div>
       </div>
+
+      {isModalOpen && modalImage && (
+        <div
+          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/85 px-4 py-10 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Visualização ampliada da foto"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className="relative max-h-full w-full max-w-5xl" onClick={(event) => event.stopPropagation()}>
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="absolute right-4 top-4 z-10 rounded-full border border-white/50 bg-black/60 p-2 text-white transition hover:border-red-500 hover:bg-red-500/30"
+              aria-label="Fechar visualização"
+            >
+              ×
+            </button>
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl border border-white/10 bg-black/60 shadow-[0_30px_80px_rgba(0,0,0,0.7)]">
+              <Image
+                src={modalImage}
+                alt="Imagem ampliada"
+                fill
+                sizes="100vw"
+                className="object-contain"
+                priority
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

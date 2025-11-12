@@ -1,12 +1,13 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
-import newLogo from '@/assets/logo/new-logo.png'
+import Logo from '@/components/Logo'
 
 export default function ExperienciaSection() {
+    const [showPhone, setShowPhone] = useState(false)
     return (
-        <section className="py-20 bg-gradient-to-br from-red-900 to-black text-white relative overflow-hidden">
+        <section id="experiencia" className="py-20 bg-gradient-to-br from-red-900 to-black text-white relative overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
                 <div className="absolute inset-0" style={{
@@ -18,8 +19,7 @@ export default function ExperienciaSection() {
                 <div className="text-center max-w-4xl mx-auto">
                     {/* Logo */}
                     <div className="mb-8">
-                        <Image
-                            src={newLogo}
+                        <Logo
                             alt="Ching Ling Logo"
                             width={120}
                             height={120}
@@ -39,28 +39,33 @@ export default function ExperienciaSection() {
                         Faça seu pedido ou reserve sua mesa.
                     </p>
 
-                    {/* CTA Buttons */}
-                    <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
-                        <Link
-                            href="https://wa.me/5531999999999?text=Olá! Gostaria de fazer uma reserva no Ching Ling"
-                            target="_blank"
-                            className="bg-white text-red-900 hover:bg-gray-100 px-10 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    {/* CTA */}
+                    <div className="flex flex-col items-center gap-6">
+                        <button
+                            type="button"
+                            onClick={() => setShowPhone((prev) => !prev)}
+                            className={`px-10 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg border-2 ${
+                                showPhone
+                                    ? 'bg-red-600 text-white border-red-600 shadow-[0_20px_40px_rgba(220,38,38,0.35)]'
+                                    : 'bg-white text-red-900 border-transparent hover:bg-gray-100'
+                            }`}
                         >
-                            RESERVA
-                        </Link>
+                            ENTRE EM CONTATO
+                        </button>
 
-                        <Link
-                            href="https://wa.me/5531999999999?text=Olá! Gostaria de fazer um pedido"
-                            target="_blank"
-                            className="border-2 border-white text-white hover:bg-white hover:text-red-900 px-10 py-4 rounded-lg font-bold text-lg transition-all duration-300 transform hover:scale-105"
-                        >
-                            DELIVERY
-                        </Link>
+                        {showPhone && (
+                            <Link
+                                href="tel:+553233622492"
+                                className="text-3xl font-bold tracking-wide text-white"
+                            >
+                                (32) 3362-2492
+                            </Link>
+                        )}
                     </div>
 
                     {/* Additional Info */}
-                    <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div className="p-6">
+                    <div className="mt-12 grid grid-cols-1 gap-8 text-center md:grid-cols-3">
+                        <div className="space-y-4 rounded-2xl bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] ring-1 ring-white/10">
                             <h3 className="text-xl font-bold mb-2">Horário</h3>
                             <p className="opacity-90">
                                 Segunda a Domingo<br />
@@ -68,19 +73,36 @@ export default function ExperienciaSection() {
                             </p>
                         </div>
 
-                        <div className="p-6">
-                            <h3 className="text-xl font-bold mb-2">Delivery</h3>
-                            <p className="opacity-90">
-                                (31) 9999-9999<br />
-                                Até 23h
-                            </p>
+                        <div className="space-y-4 rounded-2xl bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] ring-1 ring-white/10 md:order-none order-3">
+                            <h3 className="text-xl font-bold mb-2">Localização</h3>
+                            <a
+                                href="https://www.google.com/maps/place/Loja+A+Restaurante+Ching+Ling+-+R.+Visc.+de+Caranda%C3%AD,+168+-+Centro,+Barbacena+-+MG,+36200-000"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="opacity-90 hover:text-red-300 transition-colors inline-block leading-relaxed"
+                            >
+                                Loja A Restaurante Ching Ling<br />
+                                R. Visc. de Carandaí, 168 - Centro<br />
+                                Barbacena - MG, 36200-000
+                            </a>
+                            <div className="overflow-hidden rounded-xl border border-white/10 shadow-inner">
+                                <iframe
+                                    title="Mapa Restaurante Ching Ling"
+                                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3798.481440389777!2d-43.77118282400622!3d-21.22820548048458!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x989b67f1c8aa191%3A0x3436630ef9a9331a!2sLoja%20A%20Restaurante%20Ching%20Ling!5e0!3m2!1spt-BR!2sbr!4v1738286400000!5m2!1spt-BR!2sbr"
+                                    width="100%"
+                                    height="200"
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    className="w-full"
+                                />
+                            </div>
                         </div>
 
-                        <div className="p-6">
-                            <h3 className="text-xl font-bold mb-2">Localização</h3>
+                        <div className="space-y-4 rounded-2xl bg-white/5 p-6 shadow-[0_20px_60px_rgba(0,0,0,0.35)] ring-1 ring-white/10">
+                            <h3 className="text-xl font-bold mb-2">Delivery</h3>
                             <p className="opacity-90">
-                                Belo Horizonte - MG<br />
-                                Centro da cidade
+                                (32) 3362-2492<br />
+                                Atendimento das 18h às 23h
                             </p>
                         </div>
                     </div>
